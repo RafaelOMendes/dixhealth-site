@@ -17,8 +17,7 @@ import {
 } from "motion/react";
 
 import { nav as navItems, waLink } from "@/lib/content";
-import { glassStyle, refractionStyle } from "@/lib/glass";
-import { useRefractionSupport } from "@/components/glass/LiquidGlassDefs";
+import { glassStyle } from "@/lib/glass";
 import { Wordmark } from "@/components/brand/Wordmark";
 
 type Rect = { left: number; width: number; center: number };
@@ -58,7 +57,6 @@ export function LiquidNav() {
   const didDrag = useRef(false);
 
   const reduceMotion = useReducedMotion();
-  const refract = useRefractionSupport();
 
   const [active, setActive] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
@@ -314,17 +312,6 @@ export function LiquidNav() {
             : "w-[min(600px,calc(100vw_-_1.5rem))] rounded-full px-2 py-2",
         )}
       >
-        {/* Edge refraction — bends the already-blurred backdrop at the rim.
-            Purely additive: if the engine ignores it, the frosted glass below
-            is untouched. */}
-        {refract ? (
-          <span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 z-0 rounded-[inherit]"
-            style={refractionStyle()}
-          />
-        ) : null}
-
         {/* Wordmark — docked only, and only where there is room for it */}
         <div
           className={cx(

@@ -55,10 +55,11 @@ arraste sobre as abas e ele troca conforme você passa por cima, esticando com a
 velocidade e assentando na aba solta. Clique simples e teclado (setas,
 Enter/Espaço) também funcionam.
 
-**Refração.** Além do desfoque, há uma camada que distorce o fundo na borda
-(`filter#dix-liquid-glass`, um `feDisplacementMap`). Só é montada em Chromium,
-que é o único motor que hoje pinta filtros SVG dentro de `backdrop-filter`; nos
-demais o vidro fosco continua igual.
+**Refração: não tente de novo sem conseguir ver a tela.** Houve uma camada que
+distorcia o fundo na borda com `feDisplacementMap` dentro de `backdrop-filter`.
+No Chromium ela desenhava um artefato em forma de estrela sobre o menu, e foi
+removida. Se for retomar, valide com captura de tela real antes de subir — o
+efeito não dá para conferir só pelo DOM.
 
 **`backdrop-filter` mora em `src/lib/glass.ts`, não no CSS.** O Lightning CSS,
 que o Tailwind v4 usa para processar `globals.css`, remove essa propriedade das

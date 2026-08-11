@@ -17,9 +17,3 @@ export const glassStyleSoft: CSSProperties = {
   backdropFilter: "blur(10px) saturate(var(--glass-tint))",
   WebkitBackdropFilter: "blur(10px) saturate(var(--glass-tint))",
 };
-
-/** Bends the already-blurred backdrop along the rim. Chromium only. */
-export const refractionStyle = (soft = false): CSSProperties => ({
-  backdropFilter: `url(#dix-liquid-glass${soft ? "-soft" : ""})`,
-  WebkitBackdropFilter: `url(#dix-liquid-glass${soft ? "-soft" : ""})`,
-});
