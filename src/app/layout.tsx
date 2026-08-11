@@ -4,7 +4,7 @@ import { Newsreader, Urbanist } from "next/font/google";
 import "./globals.css";
 import { LiquidGlassDefs } from "@/components/glass/LiquidGlassDefs";
 import { LiquidNav } from "@/components/nav/LiquidNav";
-import { ThemeProvider, themeInitScript } from "@/components/theme/ThemeProvider";
+import { SystemTheme, themeInitScript } from "@/components/theme/SystemTheme";
 import { company } from "@/lib/content";
 
 const urbanist = Urbanist({
@@ -81,17 +81,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="flex min-h-full flex-col">
-        <ThemeProvider>
-          <LiquidGlassDefs />
-          <a
-            href="#inicio"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-[color:var(--bg-2)] focus:px-4 focus:py-2 focus:ring-2 focus:ring-[#3aa0ea]"
-          >
-            Pular para o conteúdo
-          </a>
-          <LiquidNav />
-          {children}
-        </ThemeProvider>
+        <SystemTheme />
+        <LiquidGlassDefs />
+        <a
+          href="#inicio"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:rounded-full focus:bg-[color:var(--bg-2)] focus:px-4 focus:py-2 focus:ring-2 focus:ring-[#3aa0ea]"
+        >
+          Pular para o conteúdo
+        </a>
+        <LiquidNav />
+        {children}
       </body>
     </html>
   );

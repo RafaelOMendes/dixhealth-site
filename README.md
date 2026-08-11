@@ -69,9 +69,9 @@ superfície de vidro, use as classes `liquid liquid-rim` **e** `style={glassStyl
 `@layer components`. CSS sem camada vence qualquer utilitário do Tailwind — foi
 assim que um `button { font: inherit }` solto anulou os `font-semibold` do menu.
 
-**Tema.** Segue o sistema por padrão; o botão no menu alterna
-sistema → claro → escuro. Um script bloqueante em `layout.tsx` aplica o tema
-antes da primeira pintura, então não há flash.
+**Tema.** Segue o sistema operacional, sem botão de troca. Um script bloqueante
+em `layout.tsx` aplica o tema antes da primeira pintura (não há flash) e
+`SystemTheme` mantém o atributo em dia se o SO mudar com a página aberta.
 
 ## Formulário de contato
 

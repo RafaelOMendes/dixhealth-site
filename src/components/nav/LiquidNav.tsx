@@ -19,7 +19,6 @@ import {
 import { nav as navItems, waLink } from "@/lib/content";
 import { glassStyle, refractionStyle } from "@/lib/glass";
 import { useRefractionSupport } from "@/components/glass/LiquidGlassDefs";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Wordmark } from "@/components/brand/Wordmark";
 
 type Rect = { left: number; width: number; center: number };
@@ -418,9 +417,7 @@ export function LiquidNav() {
           </div>
         </nav>
 
-        <div className="relative z-10 flex shrink-0 items-center gap-1 pl-1">
-          <ThemeToggle />
-
+        <div className="relative z-10 flex shrink-0 items-center gap-1">
           {/* CTA — docked only, from lg up (below that the tabs need the room) */}
           <div
             className={cx(
