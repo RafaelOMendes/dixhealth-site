@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DixHealth — site institucional
 
-## Getting Started
+Reconstrução do site da DixHealth: conteúdo do site atual, identidade visual da
+marca (azul `#3AA0EA` → verde `#44F17F`, tipografia Urbanist) e uma direção de
+arte de galeria — cada seção traz uma "prancha" emoldurada, como os quadros de
+um consultório.
 
-First, run the development server:
+## Stack
+
+| | |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| Estilo | Tailwind CSS v4 |
+| Animação | Motion (`motion/react`) |
+| Deploy | Vercel (estático — não há backend) |
+
+## Rodando localmente
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install && npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Outros comandos: `npm run build`, `npm run start`, `npm run lint`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy na Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+O projeto é um app Next.js padrão na raiz do repositório: importe na Vercel e
+aceite os defaults (build `next build`, sem variáveis de ambiente). O site é
+gerado 100% estático.
 
-## Learn More
+## Estrutura
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/                 layout, página, globals.css, robots, sitemap
+  lib/
+    content.ts         TODO o texto do site — edite aqui, não nos componentes
+    glass.ts           estilos de backdrop-filter (ver nota abaixo)
+  components/
+    nav/LiquidNav      barra do topo que vira ilha flutuante; arraste para trocar
+    glass/             filtro SVG de refração + detecção de suporte
+    theme/             tema claro/escuro/sistema
+    art/               Frame (moldura + plaquinha) e as pranchas em SVG
+    sections/          Hero, Pilares, Clientes, Quem somos, Contato, Rodapé
+public/
+  clients/             logos dos clientes
+  brand/               foto do escritório, imagem de Open Graph
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Detalhes que valem saber
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Navegação líquida.** No topo da página é uma barra; ao rolar, vira uma ilha
+flutuante no rodapé da tela. O indicador acompanha o dedo/cursor: pressione e
+arraste sobre as abas e ele troca conforme você passa por cima, esticando com a
+velocidade e assentando na aba solta. Clique simples e teclado (setas,
+Enter/Espaço) também funcionam.
 
-## Deploy on Vercel
+**Refração.** Além do desfoque, há uma camada que distorce o fundo na borda
+(`filter#dix-liquid-glass`, um `feDisplacementMap`). Só é montada em Chromium,
+que é o único motor que hoje pinta filtros SVG dentro de `backdrop-filter`; nos
+demais o vidro fosco continua igual.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**`backdrop-filter` mora em `src/lib/glass.ts`, não no CSS.** O Lightning CSS,
+que o Tailwind v4 usa para processar `globals.css`, remove essa propriedade das
+folhas de estilo. Estilos inline passam intactos. Se for criar uma nova
+superfície de vidro, use as classes `liquid liquid-rim` **e** `style={glassStyle}`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Camadas do CSS.** Regras base ficam em `@layer base` e as de componente em
+`@layer components`. CSS sem camada vence qualquer utilitário do Tailwind — foi
+assim que um `button { font: inherit }` solto anulou os `font-semibold` do menu.
+
+**Tema.** Segue o sistema por padrão; o botão no menu alterna
+sistema → claro → escuro. Um script bloqueante em `layout.tsx` aplica o tema
+antes da primeira pintura, então não há flash.
+
+## Formulário de contato
+
+Não há serviço de e-mail configurado. O formulário monta a mensagem e abre o
+cliente de e-mail do visitante (`mailto:`), com WhatsApp como alternativa.
+
+Para enviar pelo servidor, crie uma rota de API e troque o `handleSubmit` de
+`src/components/sections/Contact.tsx` por um `fetch` — o restante do formulário
+não muda.
